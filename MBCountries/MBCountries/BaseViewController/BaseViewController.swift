@@ -21,7 +21,7 @@ class BaseViewController: UIViewController {
                     frame.origin.y = 0
                     loadingView.frame = frame
                     loadingView.alpha = 0.7
-                    loadingView.backgroundColor = UIColor.black
+                    loadingView.backgroundColor = UIColor.systemBackground
 
                     let activityIndicatorView = UIActivityIndicatorView(style: .large)
                     activityIndicatorView.center = loadingView.center

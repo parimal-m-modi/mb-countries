@@ -10,6 +10,8 @@ import UIKit
 final class CountriesViewController: BaseViewController {
 
     @IBOutlet private weak var countriesCollectionView: UICollectionView!
+    @IBOutlet private weak var emptyStateLabel: UILabel!
+    
     private let viewModel = CountriesViewModel()
     
     override func viewDidLoad() {
@@ -29,18 +31,44 @@ final class CountriesViewController: BaseViewController {
     
     @objc
     private func loadData() {
+        emptyStateLabel.isHidden = true
         viewModel.loadData { [weak self] response in
-            if response.errorMsg != nil {
-                print("Display error: \(response.errorMsg!)")
-                //Display alert
-            } else {
-                DispatchQueue.main.async { [weak self] in
-                    self?.countriesCollectionView.isHidden = false
-                    self?.countriesCollectionView?.reloadData()
-                    self?.countriesCollectionView.refreshControl?.endRefreshing()
-                }
-            }
+            self?.endPullToRefresh()
             self?.hideLoadingView()
+            if let msg = response.errorMsg {
+                self?.handleFailure(msg: msg)
+            } else {
+                self?.handleSuccess()
+            }
+        }
+    }
+    
+    private func handleSuccess() {
+        DispatchQueue.main.async { [weak self] in
+            self?.countriesCollectionView.isHidden = false
+            self?.countriesCollectionView?.reloadData()
+        }
+    }
+    
+    private func handleFailure(msg: String) {
+        ScreenDisplayUtilities.displayRetryAlert(msg: msg) { [weak self] in
+            self?.showLoadingView()
+            self?.loadData()
+        } cancelAction: { [weak self] in
+            self?.hideLoadingView()
+            self?.showEmptyState()
+        }
+    }
+    
+    private func endPullToRefresh() {
+        Thread.executeOnMainThread { [weak self] in
+            self?.countriesCollectionView.refreshControl?.endRefreshing()
+        }
+    }
+    
+    private func showEmptyState() {
+        Thread.executeOnMainThread { [weak self] in
+            self?.emptyStateLabel.isHidden = false
         }
     }
 }

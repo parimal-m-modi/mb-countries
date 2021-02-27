@@ -69,19 +69,32 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="yIh-Xw-6Xz"/>
                                 </connections>
                             </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Countries available" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AK3-jv-Xh2">
+                                <rect key="frame" x="20" y="118" width="364" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="U1f-9X-W8S"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="AK3-jv-Xh2" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="Chb-ym-aqU"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Sl1-yj-3dr" secondAttribute="bottom" id="JSx-Iz-JZx"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Sl1-yj-3dr" secondAttribute="trailing" id="Myq-SE-rYq"/>
                             <constraint firstItem="Sl1-yj-3dr" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="OOd-uD-5YL"/>
                             <constraint firstItem="Sl1-yj-3dr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="U2H-eb-cLR"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="AK3-jv-Xh2" secondAttribute="trailing" constant="30" id="gay-Pz-XIQ"/>
+                            <constraint firstItem="AK3-jv-Xh2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="kDe-GQ-yYt"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="uHQ-Fb-Xvk"/>
                     <connections>
                         <outlet property="countriesCollectionView" destination="Sl1-yj-3dr" id="lKp-ab-xgj"/>
+                        <outlet property="emptyStateLabel" destination="AK3-jv-Xh2" id="2aG-qK-weW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
