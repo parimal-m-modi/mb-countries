@@ -6,9 +6,9 @@
 //
 
 final class CountriesDataNetworkDao: ICountriesDataDao {
-    let requestManager = ApiRequestManager()
+    private let requestManager = ApiRequestManager()
     
     func loadData(completion: @escaping (Result<[Country], Error>) -> Void) {
-        requestManager.loadData(completion: completion)
+        requestManager.loadCountriesData(completion: completion)
     }
 }

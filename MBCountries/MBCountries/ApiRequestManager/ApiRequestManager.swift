@@ -10,6 +10,7 @@ import Foundation
 enum RequestUrl {
     case countriesData
     case imageDownload(country: Country, size: Int)
+    case countryDetailsData(id: Int)
     
     var url: URL? {
         switch self {
@@ -18,6 +19,9 @@ enum RequestUrl {
             
         case let .imageDownload(country, _):
             return URL(string: "https://www.countryflags.io/\(country.code)/shiny/64.png")
+            
+        case let .countryDetailsData(id):
+            return URL(string: "https://connect.mindbodyonline.com/rest/worldregions/country/\(id)/province")
         }
     }
 }
@@ -26,7 +30,7 @@ final class ApiRequestManager {
     private var task: URLSessionTask?
     private var isCancelled = false
     
-    func loadData(completion: @escaping (Result<[Country], Error>) -> Void)  {
+    func loadCountriesData(completion: @escaping (Result<[Country], Error>) -> Void)  {
         let urlSession = URLSession.shared
         guard let url = RequestUrl.countriesData.url else {
             completion(Result.failure(NSError(domain: "Empty Query/Url not found", code: 1, userInfo: nil)))
@@ -35,7 +39,7 @@ final class ApiRequestManager {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             self?.task = urlSession.dataTask(with: url) { [weak self] data, _, error in
                 guard self?.isCancelled == false else {
-                    print("ApiRequestManager :: requestData :: request cancelled for data url = \(url.absoluteString)")
+                    print("ApiRequestManager :: loadCountriesData :: request cancelled for data url = \(url.absoluteString)")
                     //Since request is cancelled, completion is not required
                     return
                 }
@@ -72,6 +76,33 @@ final class ApiRequestManager {
                     return
                 }
                 completion(.success(data))
+            }
+            self?.task?.resume()
+        }
+    }
+    
+    func loadCountryDetailsData(id: Int, completion: @escaping (Result<[Province], Error>) -> Void)  {
+        let urlSession = URLSession.shared
+        guard let url = RequestUrl.countryDetailsData(id: id).url else {
+            completion(Result.failure(NSError(domain: "Empty Query/Url not found", code: 1, userInfo: nil)))
+            return
+        }
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self?.task = urlSession.dataTask(with: url) { [weak self] data, _, error in
+                guard self?.isCancelled == false else {
+                    print("ApiRequestManager :: loadCountryDetailsData :: request cancelled for data url = \(url.absoluteString)")
+                    //Since request is cancelled, completion is not required
+                    return
+                }
+                guard let data = data else {
+                    completion(Result.failure(NSError(domain: error.debugDescription, code: 2, userInfo: nil)))
+                    return
+                }
+                guard let provinceArray = try? JSONDecoder().decode(Array<Province>.self, from: data) else {
+                    completion(.success([]))
+                    return
+                }
+                completion(.success(provinceArray))
             }
             self?.task?.resume()
         }

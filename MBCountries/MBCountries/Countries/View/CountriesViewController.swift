@@ -14,6 +14,7 @@ final class CountriesViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = viewModel.screenTitle
         showLoadingView()
         loadData()
         configureRefreshControl()
@@ -38,8 +39,8 @@ final class CountriesViewController: BaseViewController {
                     self?.countriesCollectionView?.reloadData()
                     self?.countriesCollectionView.refreshControl?.endRefreshing()
                 }
-                self?.hideLoadingView()
             }
+            self?.hideLoadingView()
         }
     }
 }
@@ -60,7 +61,9 @@ extension CountriesViewController: UICollectionViewDataSource {
 
 //MARK: UICollectionViewDelegate
 extension CountriesViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        ScreenDisplayUtilities.displayCountryDetailsScreen(cellViewModel: viewModel.dataArray[indexPath.row])
+    }
 }
 
 //MARK: UICollectionViewDelegateFlowLayout

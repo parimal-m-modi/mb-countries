@@ -19,6 +19,10 @@ final class CountryCellViewModel {
         country.name
     }
     
+    var id: Int {
+        country.id
+    }
+    
     func getImage(size: Int, closure: @escaping ((UIImage) -> Void)) {
         imageLoader.loadImage(country: country, size: size, closure: closure)
     }
