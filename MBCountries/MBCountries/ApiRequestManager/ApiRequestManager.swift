@@ -82,8 +82,4 @@ final class ApiRequestManager {
         task?.cancel()
         isCancelled = true
     }
-    
-    deinit {
-        print("deinit ApiRequestManager")
-    }
 }

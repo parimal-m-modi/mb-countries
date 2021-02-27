@@ -22,8 +22,4 @@ final class CountryCellViewModel {
     func getImage(size: Int, closure: @escaping ((UIImage) -> Void)) {
         imageLoader.loadImage(country: country, size: size, closure: closure)
     }
-    
-    deinit {
-        print("deinit CountryCellViewModel")
-    }
 }

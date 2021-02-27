@@ -17,8 +17,4 @@ final class CountriesDataDao {
     func loadData(completion: @escaping (Result<[Country], Error>) -> Void) {
         dataDao.loadData(completion: completion)
     }
-    
-    deinit {
-        print("deinit CountriesDataDao")
-    }
 }

@@ -14,12 +14,20 @@ final class CountriesViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        showLoadingView()
         loadData()
+        configureRefreshControl()
     }
     
+    private func configureRefreshControl () {
+        countriesCollectionView.refreshControl = UIRefreshControl()
+        countriesCollectionView.refreshControl?.addTarget(self,
+                                                          action: #selector(loadData),
+                                                          for: .valueChanged)
+    }
+    
+    @objc
     private func loadData() {
-        countriesCollectionView.isHidden = true
-        showLoadingView()
         viewModel.loadData { [weak self] response in
             if response.errorMsg != nil {
                 print("Display error: \(response.errorMsg!)")
@@ -28,6 +36,7 @@ final class CountriesViewController: BaseViewController {
                 DispatchQueue.main.async { [weak self] in
                     self?.countriesCollectionView.isHidden = false
                     self?.countriesCollectionView?.reloadData()
+                    self?.countriesCollectionView.refreshControl?.endRefreshing()
                 }
                 self?.hideLoadingView()
             }

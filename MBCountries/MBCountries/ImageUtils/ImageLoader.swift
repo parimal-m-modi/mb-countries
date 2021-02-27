@@ -36,8 +36,4 @@ final class ImageLoader {
     func cancelRequest() {
         apiRequestManager?.cancelRequest()
     }
-    
-    deinit {
-        print("Deinit :: ImageLoader")
-    }
 }

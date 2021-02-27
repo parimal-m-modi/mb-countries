@@ -27,8 +27,4 @@ final class CountriesViewModel {
             }
         }
     }
-    
-    deinit {
-        print("deinit CountriesViewModel")
-    }
 }

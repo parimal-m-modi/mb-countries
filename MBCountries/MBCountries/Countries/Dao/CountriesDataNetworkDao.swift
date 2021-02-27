@@ -11,8 +11,4 @@ final class CountriesDataNetworkDao: ICountriesDataDao {
     func loadData(completion: @escaping (Result<[Country], Error>) -> Void) {
         requestManager.loadData(completion: completion)
     }
-    
-    deinit {
-        print("deinit CountriesDataNetworkDao")
-    }
 }
