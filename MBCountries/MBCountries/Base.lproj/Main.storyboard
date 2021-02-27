@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -15,18 +16,84 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Sl1-yj-3dr">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Kgj-cu-e2p">
+                                    <size key="itemSize" width="128" height="158"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CountryCollectionViewCell" id="077-uv-Btb" customClass="CountryCollectionViewCell" customModule="MBCountries" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="158"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="c54-iA-oEP">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="158"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Azc-ir-PT3">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="Azc-ir-PT3" secondAttribute="height" multiplier="1:1" id="e2C-6m-WZS"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fB-11-m22">
+                                                    <rect key="frame" x="0.0" y="128" width="128" height="0.0"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Azc-ir-PT3" firstAttribute="leading" secondItem="c54-iA-oEP" secondAttribute="leading" id="AJ3-Ea-Urw"/>
+                                                <constraint firstItem="0fB-11-m22" firstAttribute="top" secondItem="Azc-ir-PT3" secondAttribute="bottom" id="GMa-oX-6qE"/>
+                                                <constraint firstItem="Azc-ir-PT3" firstAttribute="top" secondItem="c54-iA-oEP" secondAttribute="top" id="RoM-9k-5tf"/>
+                                                <constraint firstAttribute="trailing" secondItem="Azc-ir-PT3" secondAttribute="trailing" id="TpV-If-em7"/>
+                                                <constraint firstItem="0fB-11-m22" firstAttribute="leading" secondItem="Azc-ir-PT3" secondAttribute="leading" id="jcP-nN-6Y5"/>
+                                                <constraint firstItem="0fB-11-m22" firstAttribute="trailing" secondItem="Azc-ir-PT3" secondAttribute="trailing" id="n4R-au-N1y"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                        <connections>
+                                            <outlet property="flagImageView" destination="Azc-ir-PT3" id="WuR-jO-JIV"/>
+                                            <outlet property="nameLabel" destination="0fB-11-m22" id="Ibf-CP-FbK"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="HDZ-kg-eIE"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="yIh-Xw-6Xz"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemYellowColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Sl1-yj-3dr" secondAttribute="bottom" id="JSx-Iz-JZx"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Sl1-yj-3dr" secondAttribute="trailing" id="Myq-SE-rYq"/>
+                            <constraint firstItem="Sl1-yj-3dr" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="OOd-uD-5YL"/>
+                            <constraint firstItem="Sl1-yj-3dr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="U2H-eb-cLR"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="countriesCollectionView" destination="Sl1-yj-3dr" id="lKp-ab-xgj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="103" y="94"/>
+            <point key="canvasLocation" x="102.89855072463769" y="93.75"/>
         </scene>
     </scenes>
     <resources>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

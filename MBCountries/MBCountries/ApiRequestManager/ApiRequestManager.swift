@@ -9,11 +9,15 @@ import Foundation
 
 enum RequestUrl {
     case countriesData
+    case imageDownload(country: Country, size: Int)
     
     var url: URL? {
         switch self {
         case .countriesData:
             return URL(string: "https://connect.mindbodyonline.com/rest/worldregions/country")
+            
+        case let .imageDownload(country, _):
+            return URL(string: "https://www.countryflags.io/\(country.code)/shiny/64.png")
         }
     }
 }
@@ -35,7 +39,6 @@ final class ApiRequestManager {
                     //Since request is cancelled, completion is not required
                     return
                 }
-                print("ApiRequestManager :: requestData :: request active for data url = \(url.absoluteString)")
                 guard let data = data else {
                     completion(Result.failure(NSError(domain: error.debugDescription, code: 2, userInfo: nil)))
                     return
@@ -46,7 +49,30 @@ final class ApiRequestManager {
                 }
                 completion(.success(countriesArray))
             }
-            print("ApiRequestManager :: requestData :: Starting request for data url = \(url.absoluteString)")
+            self?.task?.resume()
+        }
+    }
+    
+    func downloadImage(country: Country, size: Int, completion: @escaping (Result<Data, Error>?) -> Void)  {
+        let urlSession = URLSession.shared
+        
+        guard let url = RequestUrl.imageDownload(country: country, size: size).url else {
+            completion(Result.failure(NSError(domain: "Url not found", code: 1, userInfo: nil)))
+            return
+        }
+        
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+            self?.task = urlSession.dataTask(with: url) { [weak self] data, _, error in
+                guard self?.isCancelled == false else {
+                    print("ApiRequestManager :: downloadImage :: request cancelled for image url = \(url.absoluteString)")
+                    return
+                }
+                guard let data = data else {
+                    completion(Result.failure(NSError(domain: error.debugDescription, code: 2, userInfo: nil)))
+                    return
+                }
+                completion(.success(data))
+            }
             self?.task?.resume()
         }
     }
